@@ -11,6 +11,8 @@ import sqlite3
 from datetime import datetime
 import logging
 
+def iso(t):
+    return datetime.fromtimestamp(t).isoformat()
 
 class HistoryManager:
     # if offline ,the coin_list could be None
@@ -177,6 +179,9 @@ class HistoryManager:
             else:
                 if max_date+10*self.__storage_period<end:
                     if not self._online:
+                        print("  max_date", max_date, iso(max_date))
+                        print("  storage_period %s" % ( self.__storage_period))
+                        print("  end",  end, iso(end))
                         raise Exception("Have to be online")
                     self.__fill_data(max_date + self.__storage_period, end, coin, cursor)
                 if min_date>start and self._online:
